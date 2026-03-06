@@ -1,374 +1,195 @@
-Análise e Previsão de Tempo de Rotas — Projeto de Ciência de Dados em R
+# Análise e Previsão de Tempo de Rotas — Projeto de Ciência de Dados em R
 
+## Visão Geral
 
-Visão Geral
- 
-
-Este projeto aplica técnicas de \*\*Análise Exploratória de Dados (EDA)\*\* e \*\*Modelagem Preditiva\*\* para analisar o comportamento de cinco rotas de transporte ao longo do dia.
- 
+Este projeto aplica técnicas de **Análise Exploratória de Dados (EDA)** e **Modelagem Preditiva** para analisar o comportamento de cinco rotas de transporte ao longo do dia.
 
 O objetivo principal é:
- 
 
-# \- Entender o padrão de variação dos tempos de viagem
+- Entender o padrão de variação dos tempos de viagem
+- Identificar horários críticos (pico)
+- Analisar a relação entre tempo e velocidade
+- Construir um modelo para prever o tempo total de viagem
 
-# \- Identificar horários críticos (pico)
+Projeto desenvolvido em **R**, com foco em clareza analítica, interpretação estatística e aplicação prática em logística e mobilidade urbana.
 
-# \- Analisar a relação entre tempo e velocidade
+---
 
-# \- Construir um modelo para prever o tempo total de viagem
+## Problema de Negócio
 
-# 
+Em operações logísticas e transporte urbano, a variação do tempo de trajeto impacta:
 
-# Projeto desenvolvido em \*\*R\*\*, com foco em clareza analítica, interpretação estatística e aplicação prática em logística e mobilidade urbana.
+- Custos operacionais
+- Nível de serviço
+- Planejamento de frota
+- Satisfação do cliente
 
-# 
+Este projeto busca responder:
 
-# ---
+- Quais rotas apresentam maior instabilidade?
+- Quais horários impactam mais o tempo de viagem?
+- Existe correlação significativa entre velocidade e tempo?
+- É possível prever o tempo total de deslocamento?
 
-# 
+---
 
-# \## Problema de Negócio
+## 📊 Dados Utilizados
 
-# 
+Foram analisados cinco datasets independentes:
 
-# Em operações logísticas e transporte urbano, a variação do tempo de trajeto impacta:
+- `rota_1.csv`
+- `rota_2.csv`
+- `rota_3.csv`
+- `rota_4.csv`
+- `rota_5.csv`
 
-# 
+Cada dataset contém:
 
-# \- Custos operacionais
+- Hora do trajeto
+- Tempo de ida (min)
+- Tempo de volta (min)
+- Velocidade de ida (km/h)
+- Velocidade de volta (km/h)
 
-# \- Nível de serviço
+Os datasets foram consolidados em um único dataframe para análise comparativa.
 
-# \- Planejamento de frota
+---
 
-# \- Satisfação do cliente
+## 🛠️ Stack Tecnológica
 
-# 
+**Linguagem**
 
-# Este projeto busca responder:
+- R
 
-# 
+**Manipulação e Visualização**
 
-# \- Quais rotas apresentam maior instabilidade?
+- `dplyr`
+- `data.table`
+- `ggplot2`
+- `GGally`
+- `plotly`
 
-# \- Quais horários impactam mais o tempo de viagem?
+**Machine Learning**
 
-# \- Existe correlação significativa entre velocidade e tempo?
+- `caret`
+- `glmnet`
+- `randomForest`
+- `e1071`
+- `MASS`
 
-# \- É possível prever o tempo total de deslocamento?
+---
 
-# 
+## 🔎 Metodologia
 
-# ---
+### 1️⃣ Tratamento de Dados
 
-# 
+- Consolidação das rotas
+- Conversão de variáveis para formato numérico
+- Criação de variáveis derivadas:
+  - `tempo_total`
+  - `distancia_total`
+  - `hora_dia`
 
-# \## 📊 Dados Utilizados
+---
 
-# 
+### 2️⃣ Análise Exploratória (EDA)
 
-# Foram analisados cinco datasets independentes:
+Foram realizadas:
 
-# 
+- Estatísticas descritivas por rota
+- Análise de dispersão e distribuição
+- Boxplots comparativos
+- Análise de densidade
+- Matriz de correlação
+- Análise por hora do dia
+- Identificação dos horários críticos (07h–18h)
 
-# \- `rota\_1.csv`
+Principais análises realizadas:
 
-# \- `rota\_2.csv`
+- Relação entre tempo de ida e volta
+- Impacto da velocidade no tempo total
+- Comparação entre horários de pico e fora de pico
+- Variabilidade entre rotas
 
-# \- `rota\_3.csv`
+---
 
-# \- `rota\_4.csv`
+### 3️⃣ Engenharia de Variáveis
 
-# \- `rota\_5.csv`
+Foram criadas métricas adicionais como:
 
-# 
+- Tempo total de viagem
+- Distância estimada
+- Tempo acumulado por hora
+- Velocidade média por trajeto
 
-# Cada dataset contém:
+Essas variáveis aumentam o poder explicativo do modelo.
 
-# 
+---
 
-# \- Hora do trajeto
+### 4️⃣ Modelagem Preditiva
 
-# \- Tempo de ida (min)
+Foi implementado um modelo de:
 
-# \- Tempo de volta (min)
+## 📈 Regressão Linear
 
-# \- Velocidade de ida (km/h)
+**Objetivo**
 
-# \- Velocidade de volta (km/h)
+Prever o tempo total de viagem.
 
-# 
+**Etapas**
 
-# Os datasets foram consolidados em um único dataframe para análise comparativa.
+- Separação treino/teste
+- Treinamento com `lm()`
+- Avaliação com RMSE
+- Análise de resíduos
+- QQ-Plot para validação de normalidade
 
-# 
+**Métrica de Avaliação**
 
-# ---
+- RMSE (Root Mean Squared Error)
 
-# 
+O modelo permite estimar o tempo total de deslocamento com base nas variáveis operacionais disponíveis.
 
-# \## 🛠️ Stack Tecnológica
+---
 
-# 
+## 📌 Principais Insights
 
-# \*\*Linguagem:\*\*  
+- Existe correlação significativa entre tempo e velocidade.
+- Algumas rotas apresentam maior sensibilidade a horários de pico.
+- O período entre 07h e 18h concentra maior impacto no tempo médio de ida.
+- A variabilidade entre rotas sugere diferentes padrões de tráfego.
 
-# \- R
+---
 
-# 
+## 💼 Aplicabilidade Real
 
-# \*\*Manipulação e Visualização:\*\*  
+Este tipo de análise pode ser aplicado em:
 
-# \- `dplyr`
+- Planejamento logístico
+- Previsão de tempo de entrega
+- Otimização de rotas
+- Planejamento de frota
+- Gestão de SLA
+- Estudos de mobilidade urbana
 
-# \- `data.table`
+---
 
-# \- `ggplot2`
+## 🚀 Como Executar
 
-# \- `GGally`
+1. Clone o repositório  
+2. Instale os pacotes necessários  
+3. Ajuste o diretório para os arquivos `.csv`  
+4. Execute o script principal  
 
-# \- `plotly`
+---
 
-# 
+## 📈 Próximos Passos (Evolução do Projeto)
 
-# \*\*Machine Learning:\*\*  
+- Implementação de Random Forest
+- Regularização (Ridge / Lasso)
+- Cross-validation
+- Feature importance
+- Dashboard interativo com Shiny
+- Modelos mais robustos de previsão
 
-# \- `caret`
-
-# \- `glmnet`
-
-# \- `randomForest`
-
-# \- `e1071`
-
-# \- `MASS`
-
-# 
-
-# ---
-
-# 
-
-# \## 🔎 Metodologia
-
-# 
-
-# \### 1️⃣ Tratamento de Dados
-
-# \- Consolidação das rotas
-
-# \- Conversão de variáveis para formato numérico
-
-# \- Criação de variáveis derivadas:
-
-# &nbsp; - `tempo\_total`
-
-# &nbsp; - `distancia\_total`
-
-# &nbsp; - `hora\_dia`
-
-# 
-
-# ---
-
-# 
-
-# \### 2️⃣ Análise Exploratória (EDA)
-
-# 
-
-# Foram realizadas:
-
-# 
-
-# \- Estatísticas descritivas por rota
-
-# \- Análise de dispersão e distribuição
-
-# \- Boxplots comparativos
-
-# \- Análise de densidade
-
-# \- Matriz de correlação
-
-# \- Análise por hora do dia
-
-# \- Identificação dos horários críticos (07h–18h)
-
-# 
-
-# Principais análises realizadas:
-
-# 
-
-# \- Relação entre tempo de ida e volta
-
-# \- Impacto da velocidade no tempo total
-
-# \- Comparação entre horários de pico e fora de pico
-
-# \- Variabilidade entre rotas
-
-# 
-
-# ---
-
-# 
-
-# \### 3️⃣ Engenharia de Variáveis
-
-# 
-
-# Foram criadas métricas adicionais como:
-
-# 
-
-# \- Tempo total de viagem
-
-# \- Distância estimada
-
-# \- Tempo acumulado por hora
-
-# \- Velocidade média por trajeto
-
-# 
-
-# Essas variáveis aumentam o poder explicativo do modelo.
-
-# 
-
-# ---
-
-# 
-
-# \### 4️⃣ Modelagem Preditiva
-
-# 
-
-# Foi implementado um modelo de:
-
-# 
-
-# \## 📈 Regressão Linear
-
-# 
-
-# Objetivo:
-
-# Prever o tempo total de viagem.
-
-# 
-
-# Etapas:
-
-# \- Separação treino/teste
-
-# \- Treinamento com `lm()`
-
-# \- Avaliação com RMSE
-
-# \- Análise de resíduos
-
-# \- QQ-Plot para validação de normalidade
-
-# 
-
-# Métrica de Avaliação:
-
-# \- RMSE (Root Mean Squared Error)
-
-# 
-
-# O modelo permite estimar o tempo total de deslocamento com base nas variáveis operacionais disponíveis.
-
-# 
-
-# ---
-
-# 
-
-# \## 📌 Principais Insights
-
-# 
-
-# \- Existe correlação significativa entre tempo e velocidade.
-
-# \- Algumas rotas apresentam maior sensibilidade a horários de pico.
-
-# \- O período entre 07h e 18h concentra maior impacto no tempo médio de ida.
-
-# \- A variabilidade entre rotas sugere diferentes padrões de tráfego.
-
-# 
-
-# ---
-
-# 
-
-# \## 💼 Aplicabilidade Real
-
-# 
-
-# Este tipo de análise pode ser aplicado em:
-
-# 
-
-# \- Planejamento logístico
-
-# \- Previsão de tempo de entrega
-
-# \- Otimização de rotas
-
-# \- Planejamento de frota
-
-# \- Gestão de SLA
-
-# \- Estudos de mobilidade urbana
-
-# 
-
-# ---
-
-# 
-
-# \## 🚀 Como Executar
-
-# 
-
-# 1\. Clone o repositório
-
-# 2\. Instale os pacotes necessários
-
-# 3\. Ajuste o diretório para os arquivos `.csv`
-
-# 4\. Execute o script principal
-
-# 
-
-# ---
-
-# 
-
-# \## 📈 Próximos Passos (Evolução do Projeto)
-
-# 
-
-# \- Implementação de Random Forest
-
-# \- Regularização (Ridge / Lasso)
-
-# \- Cross-validation
-
-# \- Feature importance
-
-# \- Dashboard interativo com Shiny
-
-# \- Modelos mais robustos de previsão
-
-# 
-
-# ---
-
-# 
-
+---
